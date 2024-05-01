@@ -14,24 +14,32 @@ class Sistema():
         return self.__DictMAT
     
 
-    def AddDictC(self, llave, elem):
+    def AddDictC(self, elem, llave):
         self.__DictCSV[llave] = elem
-    def AddDictM(self, llave, elem):
-        self.__DictCSV[llave] = elem
+    def AddDictM(self, elem, llave):
+        self.__DictMAT[llave] = elem
 
 
     def LeerdatosM(self):
-        dir = input("Ingrese la dirección del archivo: ")
+        dir = input(r"Ingrese la dirección del archivo: ")
         arch = sio.loadmat(dir)
-        print(arch.values)
+        llaves = sio.whosmat(dir)
+        print(llaves)
         key = input("Ingrese la llave del archivo a manipular")
         datos = np.array(arch[key])
-        return datos and key
+        info = [datos, key]
+        op1 = int(input("¿Desea visualizar el arreglo? (Forma matricial): 1.Si\n 2.No\n Usted eligió: "))
+        if op1 == 1:
+            print(datos)
+            return info
+        else:
+            return datos, key
     def LeerdatosC(self):
         dir = input("Ingrese la dirección del archivo: ")
         k = input("Ingrese la clave a asignar para este archivo: ")
         dt = pd.read(dir)
-        return dt and k
+        info = [dt, k]
+        return info
         
     def ExcistanceC(self, elem, llave):
         if elem in self.__DictCSV[llave]:
@@ -44,3 +52,4 @@ class Sistema():
             return True
         else:
             return False
+    
