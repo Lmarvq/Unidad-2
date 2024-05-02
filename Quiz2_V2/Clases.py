@@ -79,9 +79,74 @@ class Graficadora(Sistema):
 
             print(f"El archivo correspondientes a la clave{val} tiene {canales} disponibles para la graficación de histogramas, todos se encuentran dentro de un rango de 0 a {puntos}")
             Sel_H = int(input("¿Cual canal desea escoger para la graficación?:\n Usted escogió:"))
+            t = input("Ingrese el título de la gráfica")
+            lx = input("Ingrese el nombre del eje X")
+            ly = input("Ingrese el nombre del eje Y")
+            seccion = np.copy(info)
+
+
+            self.__G1.hist(seccion[Sel_H, :],  label = (f"Canal{Sel_H}"))
+            self.__G1.set_xlabel(lx)
+            self.__G1.set_ylabel(ly)
+            self.__G1.set_title(t)
+            self.__G1.grid(True)
+            self.__G1.legend()
+            self.__G1.show()
+    
+    def G2(self):
+        s = Sistema()
+        val = input("Ingrese la clave asociada al archivo MAT que desea graficar")
+        if s.ExcistanceM(val) == True:
+            info = s.ObtenerDictM()[val]
+            canales = info.shape[0]
+            puntos = info.shape[1]
+
+            if info.ndim >2:
+                epocas = info.shape[2]
+                info = np.reshape(info, [canales, puntos*epocas])
+            else: 
+                pass
+
+            print(f"El archivo correspondientes a la clave{val} tiene {canales} disponibles para la graficación de histogramas, todos se encuentran dentro de un rango de 0 a {puntos}")
             pmin = int(input("Ingrese el punto inicial de la sección a graficar: "))
             pmax = int(input("Ingrese el punto final de la sección a graficar: "))
-            arreglo = np.reshape(info, [Sel_H, pmin:pmax])
+            t = input("Ingrese el título de la gráfica")
+            lx = input("Ingrese el nombre del eje X")
+            ly = input("Ingrese el nombre del eje Y")
 
+            self.__G2.scatter(info[:, pmin:pmax])
+            self.__G2.set_xlabel(lx)
+            self.__G2.set_ylabel(ly)
+            self.__G2.set_title(t)
+            self.__G2.grid(True)
+            self.__G2.legend()
 
-        
+    
+    def G3(self):
+        s = Sistema()
+        val = input("Ingrese la clave asociada al archivo MAT que desea graficar")
+        if s.ExcistanceM(val) == True:
+            info = s.ObtenerDictM()[val]
+            canales = info.shape[0]
+            puntos = info.shape[1]
+
+            if info.ndim >2:
+                epocas = info.shape[2]
+                info = np.reshape(info, [canales, puntos*epocas])
+            else: 
+                pass
+            
+            x = np.random.randn(info.shape[1])
+            print(f"El archivo correspondientes a la clave{val} tiene {canales} disponibles para la graficación de histogramas, todos se encuentran dentro de un rango de 0 a {puntos}")
+            Sel_C = int(input("¿Cual canal desea escoger para la graficación?:\n Usted escogió:"))
+            t = input("Ingrese el título de la gráfica")
+            lx = input("Ingrese el nombre del eje X")
+            ly = input("Ingrese el nombre del eje Y")
+
+            self.__G3.plot(x, info[Sel_C, :], label = (f"Canal{Sel_C}"))
+            self.__G3.set_xlabel(lx)
+            self.__G3.set_ylabel(ly)
+            self.__G3.set_title(t)
+            self.__G3.grid(True)
+            self.__G3.legend()
+            self.__G3.show()
