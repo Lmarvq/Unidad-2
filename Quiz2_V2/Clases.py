@@ -83,5 +83,5 @@ class Graficadora(Sistema):
             pmax = int(input("Ingrese el punto final de la sección a graficar: "))
             arreglo = np.reshape(info, [Sel_H, pmin:pmax])
 
-        
+
         
