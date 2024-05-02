@@ -25,7 +25,7 @@ class Sistema():
         arch = sio.loadmat(dir)
         llaves = sio.whosmat(dir)
         print(llaves)
-        key = input("Ingrese la llave del archivo a manipular")
+        key = input("Ingrese la llave del archivo a manipular: ")
         datos = np.array(arch[key])
         info = [datos, key]
         op1 = int(input("¿Desea visualizar el arreglo? (Forma matricial): 1.Si\n 2.No\n Usted eligió: "))
@@ -40,44 +40,61 @@ class Sistema():
         dt = pd.read_csv(dir)
         info = [dt, k]
         return info
-        
-    def ExcistanceC(self, llave):
-        if llave in self.ObtenerDictC():
+
+s = Sistema()
+def ExcistanceC( llave):
+        if llave in s.ObtenerDictC():
             return True
         else:
             return False
         #("EL ELEMENTO SELECCIONADO NO CORRESPONDE A LA LLAVE ASIGNADA, O NO EXISTE")
-    def ExcistanceM(self, llave):
-        if llave in self.__DictMAT:
+def ExcistanceM( llave):
+        if llave in s.ObtenerDictM():
             return True
         else:
             return False
     
+"""""
+def RFG(): #Reshape for graphing
+    s = Sistema()
+    val = input("Ingrese la clave asociada al archivo MAT que desea graficar")
+    if s.ExcistanceM(val) == True:
+        info = s.ObtenerDictM()[val]
+        canales = info.shape[0]
+        puntos = info.shape[1]
+        d = [val, ]
+        if info.ndim >2:
+            epocas = info.shape[2]
+            info = np.reshape(info, [canales, puntos*epocas])
+            d.append(info)
+            return d
+        else: 
+            d.append(info)
+            return d
+"""
 
         
-class Graficadora(Sistema):
+class Graficadora():
     def __init__(self):
-        super(Sistema).__init__()
         self.__fig = plt.figure()
         self.__G1 = self.__fig.add_subplot(3,2,1)
         self.__G2 = self.__fig.add_subplot(3,2,2)
         self.__G3 = self.__fig.add_subplot(3,2,6)
 
     def G1(self):
-        s = Sistema()
-        val = input("Ingrese la clave asociada al archivo MAT que desea graficar")
-        if s.ExcistanceM(val) == True:
+        val = input("Ingrese la clave asociada al archivo MAT que desea graficar: ")
+        print(ExcistanceM(val))
+        if ExcistanceM(val) == True:
             info = s.ObtenerDictM()[val]
             canales = info.shape[0]
             puntos = info.shape[1]
-
             if info.ndim >2:
                 epocas = info.shape[2]
                 info = np.reshape(info, [canales, puntos*epocas])
             else: 
                 pass
 
-            print(f"El archivo correspondientes a la clave{val} tiene {canales} disponibles para la graficación de histogramas, todos se encuentran dentro de un rango de 0 a {puntos}")
+            print(f"El archivo correspondientes a la clave{val} tiene {canales} disponibles, todos se encuentran dentro de un rango de 0 a {puntos}")
             Sel_H = int(input("¿Cual canal desea escoger para la graficación?:\n Usted escogió:"))
             t = input("Ingrese el título de la gráfica")
             lx = input("Ingrese el nombre del eje X")
@@ -91,53 +108,51 @@ class Graficadora(Sistema):
             self.__G1.set_title(t)
             self.__G1.grid(True)
             self.__G1.legend()
-            self.__G1.show()
+            
     
     def G2(self):
-        s = Sistema()
-        val = input("Ingrese la clave asociada al archivo MAT que desea graficar")
-        if s.ExcistanceM(val) == True:
+        val = input("Ingrese la clave asociada al archivo MAT que desea graficar: ")
+        if ExcistanceM(val) == True:
             info = s.ObtenerDictM()[val]
             canales = info.shape[0]
             puntos = info.shape[1]
-
             if info.ndim >2:
                 epocas = info.shape[2]
                 info = np.reshape(info, [canales, puntos*epocas])
             else: 
                 pass
 
-            print(f"El archivo correspondientes a la clave{val} tiene {canales} disponibles para la graficación de histogramas, todos se encuentran dentro de un rango de 0 a {puntos}")
+            print(f"El archivo correspondiente a la clave {val} tiene {canales} disponibles, todos se encuentran dentro de un rango de 0 a {puntos}")
             pmin = int(input("Ingrese el punto inicial de la sección a graficar: "))
             pmax = int(input("Ingrese el punto final de la sección a graficar: "))
             t = input("Ingrese el título de la gráfica")
             lx = input("Ingrese el nombre del eje X")
             ly = input("Ingrese el nombre del eje Y")
-
-            self.__G2.scatter(info[:, pmin:pmax])
+            sección = np.copy(info)
+            x = np.array(sección[:, pmin:pmax])
+            self.__G2.scatter(x,sección[:, pmin:pmax])
             self.__G2.set_xlabel(lx)
             self.__G2.set_ylabel(ly)
             self.__G2.set_title(t)
             self.__G2.grid(True)
             self.__G2.legend()
+            
 
     
     def G3(self):
-        s = Sistema()
-        val = input("Ingrese la clave asociada al archivo MAT que desea graficar")
-        if s.ExcistanceM(val) == True:
+        val = input("Ingrese la clave asociada al archivo MAT que desea graficar: ")
+        if ExcistanceM(val) == True:
             info = s.ObtenerDictM()[val]
             canales = info.shape[0]
             puntos = info.shape[1]
-
             if info.ndim >2:
                 epocas = info.shape[2]
                 info = np.reshape(info, [canales, puntos*epocas])
             else: 
                 pass
-            
+
             x = np.random.randn(info.shape[1])
-            print(f"El archivo correspondientes a la clave{val} tiene {canales} disponibles para la graficación de histogramas, todos se encuentran dentro de un rango de 0 a {puntos}")
+            print(f"El archivo correspondiente a la clave {val} tiene {canales} disponibles, todos se encuentran dentro de un rango de 0 a {puntos}")
             Sel_C = int(input("¿Cual canal desea escoger para la graficación?:\n Usted escogió:"))
             t = input("Ingrese el título de la gráfica")
             lx = input("Ingrese el nombre del eje X")
@@ -149,4 +164,4 @@ class Graficadora(Sistema):
             self.__G3.set_title(t)
             self.__G3.grid(True)
             self.__G3.legend()
-            self.__G3.show()
+            
