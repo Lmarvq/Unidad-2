@@ -17,7 +17,7 @@ def main():
         if menu == 2:
             info = sis.LeerdatosC()
             sis.AddDictC(info[0], info[1])
-            e = sis.ExcistanceC(info[0],info[1])
+            e = sis.ExcistanceC(info[1])
             if e == True:
                 print("Operación exitosa")
             else: 

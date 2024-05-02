@@ -35,14 +35,14 @@ class Sistema():
         else:
             return datos, key
     def LeerdatosC(self):
-        dir = input("Ingrese la dirección del archivo: ")
+        dir = input(r"Ingrese la dirección del archivo: ")
         k = input("Ingrese la clave a asignar para este archivo: ")
-        dt = pd.read(dir)
+        dt = pd.read_csv(dir)
         info = [dt, k]
         return info
         
-    def ExcistanceC(self, elem, llave):
-        if elem in self.__DictCSV[llave]:
+    def ExcistanceC(self, llave):
+        if llave in self.ObtenerDictC():
             return True
         else:
             return False
