@@ -8,7 +8,7 @@ def main():
         if menu == 1:
             info = sis.LeerdatosM()
             sis.AddDictM(info[0], info[1])
-            e = sis.ExcistanceM(info[0],info[1])
+            e = sis.ExcistanceM(info[1])
             if e == True:
                 print("Operación exitosa")
             else: 
